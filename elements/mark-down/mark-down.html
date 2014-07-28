@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <script src="../marked/lib/marked.js"></script>
 
-<!-- mark-down definition -->
 <polymer-element name="mark-down" attributes="text">
   <template>
     <style>
@@ -19,9 +18,6 @@
       textChanged: function() {
         this.$.markdown.innerHTML = marked(this.text);
       },
-      // Thanks Ryan Seddon! (https://github.com/ryanseddon/markdown-component)
-      // Remove all leading/trailing whitespace so it's not confused as
-      // a code block
       trim: function(str) {
         return str.replace(/^[^\S\n]+/gm,'');
       }
@@ -29,7 +25,6 @@
   </script>
 </polymer-element>
 
-<!-- mark-down-editor definition, extends mark-down -->
 <polymer-element name="mark-down-editor" extends="mark-down" noscript>
   <template>
     <style>

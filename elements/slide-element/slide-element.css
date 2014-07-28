@@ -1,10 +1,39 @@
-:host {
-  display: block;
-}
-
 /* To ensure your styling works under the Shadow DOM polyfill, see
    www.polymer-project.org/docs/polymer/styling.html#directives */
 polyfill-next-selector { content: ':host > h2'; }
 ::content h2 {
   color: blue;
+}
+
+:host {
+  display: block;
+  height: 600px;
+  width: 95%;
+  float: left;
+  border: 1px solid #333;
+  position: absolute;
+  top: 130px;
+  opacity: 0;
+  transition: opacity .1s ease-in;
+}
+
+:host.active {
+  opacity: 1;
+}
+
+mark-down, code-highlight-element {
+  width: 45%;
+  height: 80%;
+  float: left;
+  margin: 50px 20px;
+  display: block;
+  font-family: Verlag;
+}
+
+mark-down {
+  font-size: 1.42em;
+}
+
+mark-down li {
+  maring-bottom: 10px;
 }

@@ -5,23 +5,19 @@
 <polymer-element name="presentation-element" attributes="gist slides">
 
   <template>
-    <style>
-      :host { height: 98%; width: 100%; overflow: hidden; }
-      ul { list-style: none; margin: 0; padding: 0; }
-      li { padding: 0; margin: 0; }
-      .controls { margin-bottom: 20px;}
-      .controls div {height: 38px; width: 40px; border: 1px solid #333; float: left; padding-top: 10px; text-align: center; cursor: pointer;}
-      .controls div:hover { background-color: #ddd;}
-    </style>
     <core-ajax url="https://api.github.com/gists/{{gist}}?client_id=4a2842df6b2deed903de&client_secret=3f8c81f90b74254512de25a6f0125cec3fbcf629" auto on-core-response="{{handleResponse}}">
     </core-ajax>
+
     <link rel="stylesheet" href="presentation-element.css" />
 
     <ul id='slideHolder'>
       <template repeat='{{slide in slides}}'>
-        <li><slide-element content='{{slide.content}}' code='{{slide.code}}' active='{{slide.active}}'></slide-element></li>
+        <li>
+          <slide-element content='{{slide.content}}' code='{{slide.code}}' active='{{slide.active}}'></slide-element>
+        </li>
       </template>
     </ul>
+
     <div class='controls'>
       <div on-click="{{moveBack}}"><</div>
       <div on-click="{{moveForward}}">></div>
@@ -90,18 +86,6 @@
         this.slideNodes[index].style.opacity = 0
         this.slideNodes[nextIndex].style.opacity = 1;
         this.currentSlide = nextIndex;
-      },
-
-      findActive: function() {
-        var index = -1;
-
-        for (var i = 0; i < this.slideNodes.length; i++) {
-          if (this.slideNodes[i].active) {
-            index = i;
-            break;
-          }
-        };
-        return index;
       }
     });
 
