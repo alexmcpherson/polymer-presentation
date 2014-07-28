@@ -1,4 +1,4 @@
-<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymer-core-ajax/core-ajax.html">
 <link rel="import" href="../slide-element/slide-element.html">
 
@@ -14,7 +14,8 @@
         <li><slide-element content='{{slide.content}}' code='{{slide.code}}'></slide-element></li>
       </template>
     </ul>
-
+    <span on-click="{{moveBack}}"><</span>
+    <span on-click="{{moveForward}}">></span>
   </template>
 
   <script>
@@ -44,11 +45,20 @@
             }
           }
         }
-        console.log(slides)
+        slides[0].active = true;
+
         this.slides = slides;
         this.description = gist.description;
 
         this.fire('slides-loaded');
+      },
+
+      moveBack: function() {
+        console.log(this.slides, 'back');
+      },
+
+      moveForward: function() {
+        console.log(this.slides, 'forwards');
       }
     });
 
