@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../../polymer/polymer.html">
 <script src="../marked/lib/marked.js"></script>
 
 <!-- mark-down definition -->
@@ -20,7 +20,7 @@
         this.$.markdown.innerHTML = marked(this.text);
       },
       // Thanks Ryan Seddon! (https://github.com/ryanseddon/markdown-component)
-      // Remove all leading/trailing whitespace so it's not confused as 
+      // Remove all leading/trailing whitespace so it's not confused as
       // a code block
       trim: function(str) {
         return str.replace(/^[^\S\n]+/gm,'');
