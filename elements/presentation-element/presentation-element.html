@@ -5,7 +5,7 @@
 <polymer-element name="presentation-element" attributes="gist slides">
 
   <template>
-    <core-ajax url="https://api.github.com/gists/{{gist}}?client_id=4a2842df6b2deed903de&client_secret=3f8c81f90b74254512de25a6f0125cec3fbcf629" auto on-core-response="{{handleResponse}}">
+    <core-ajax url="https://api.github.com/gists/{{gist}}" auto on-core-response="{{handleResponse}}">
     </core-ajax>
 
     <link rel="stylesheet" href="presentation-element.css" />
