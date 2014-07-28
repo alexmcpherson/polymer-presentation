@@ -1,0 +1,21 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../mark-down/mark-down.html">
+<link rel="import" href="../code-highlight-element/code-highlight-element.html">
+
+<polymer-element name="slide-element" attributes="content code language">
+
+  <template>
+    <link rel="stylesheet" href="slide-element.css" />
+    <mark-down>{{content}}</mark-down>
+    <code-highlight-element language='{{code.language}}'>{{code.content}}</code-highlight-element>
+
+  </template>
+
+  <script>
+    Polymer('slide-element', {
+
+    });
+
+  </script>
+
+</polymer-element>

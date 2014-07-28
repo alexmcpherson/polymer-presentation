@@ -1,0 +1,25 @@
+{
+  "name": "presentation-element",
+  "version": "0.0.1",
+  "authors": [
+    "Alex McPherson"
+  ],
+  "description": "Element that renders gists into presentations",
+  "keywords": "presentation, polymer, web-components",
+  "main": "presentation-element.html",
+  "license": "MIT",
+  "homepage": "https://github.com/alexmcpherson/presentation-element/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.3",
+    "polymer-core-ajax": "Polymer/core-ajax",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3",
+    "mark-down": "~0.5.2"
+  },
+  "resolutions": {
+    "polymer": ">=0.3.0 <1.0.0",
+    "platform": ">=0.3.0 <1.0.0"
+  }
+}

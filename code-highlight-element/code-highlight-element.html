@@ -1,0 +1,23 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="../prism.js"></script>
+
+
+<polymer-element name="code-highlight-element" attributes="language">
+
+  <template>
+    <link rel='stylesheet' href="../prism.css"></link>
+    <code id="prismWrapper" class="language-{{language}}"></code>
+  </template>
+
+  <script>
+
+    Polymer('code-highlight-element', {
+      ready: function() {
+        this.$.prismWrapper.innerHTML = this.innerHTML;
+        Prism.highlightElement(this.$.prismWrapper);
+      }
+    });
+
+  </script>
+
+</polymer-element>
