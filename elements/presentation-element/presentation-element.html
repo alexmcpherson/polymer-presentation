@@ -5,24 +5,43 @@
 <polymer-element name="presentation-element" attributes="gist slides">
 
   <template>
-    <core-ajax url="https://api.github.com/gists/{{gist}}?client_id=4a2842df6b2deed903de&client_secret=3f8c81f90b74254512de25a6f0125cec3fbcf629" auto on-core-response="{{handleResponse}}"></core-ajax>
+    <style>
+      :host { height: 98%; width: 100%; overflow: hidden; }
+      ul { list-style: none; margin: 0; padding: 0; }
+      li { padding: 0; margin: 0; }
+      .controls { margin-bottom: 20px;}
+      .controls div {height: 40px; width: 40px; border: 1px solid #333; float: left; padding-top: 10px; text-align: center; cursor: pointer;}
+      .controls div:hover { background-color: #ddd;}
+    </style>
+    <core-ajax url="https://api.github.com/gists/{{gist}}?client_id=4a2842df6b2deed903de&client_secret=3f8c81f90b74254512de25a6f0125cec3fbcf629" auto on-core-response="{{handleResponse}}">
+    </core-ajax>
     <link rel="stylesheet" href="presentation-element.css" />
-    <h1>A slideshow of: {{description}}</h1>
 
-    <ul>
+    <ul id='slideHolder'>
       <template repeat='{{slide in slides}}'>
-        <li><slide-element content='{{slide.content}}' code='{{slide.code}}'></slide-element></li>
+        <li><slide-element content='{{slide.content}}' code='{{slide.code}}' active='{{slide.active}}'></slide-element></li>
       </template>
     </ul>
-    <span on-click="{{moveBack}}"><</span>
-    <span on-click="{{moveForward}}">></span>
+    <div class='controls'>
+      <div on-click="{{moveBack}}"><</div>
+      <div on-click="{{moveForward}}">></div>
+      {{currentSlide + 1}}/{{slides.length}}
+    </div>
   </template>
 
   <script>
 
     Polymer('presentation-element', {
+      currentSlide: 0,
+
       LookupTable: {
         js: 'javascript'
+      },
+
+      ready: function() {
+        this.addEventListener('slides-loaded', function(e) {
+          console.log('My slides have been ajaxed from Github; sweet');
+        });
       },
 
       handleResponse: function(e, xhr) {
@@ -32,13 +51,13 @@
         for (file in gist.files) {
           if (/slide/.test(gist.files[file].filename)) {
             var index = file.split('-')[1].replace(/\.md|\.markdown/, '') - 1;
-            slides[index] = slides[index] || {};
+            slides[index] = slides[index] || {active: false};
             slides[index].content = gist.files[file].content;
           }
           if (/code/.test(gist.files[file].filename)) {
             var index = file.split('-')[1].split('.')[0] - 1;
             var language = file.split('-')[1].split('.')[1];
-            slides[index] = slides[index] || {};
+            slides[index] = slides[index] || {active: false};
             slides[index].code = {
               content: gist.files[file].content,
               language: this.LookupTable[language]
@@ -49,16 +68,39 @@
 
         this.slides = slides;
         this.description = gist.description;
-
         this.fire('slides-loaded');
       },
 
       moveBack: function() {
-        console.log(this.slides, 'back');
+        this.slideNodes = this.slideNodes || this.$.slideHolder.querySelectorAll('slide-element'); //cache
+        var index = this.currentSlide;
+        var nextIndex = index === 0 ? this.slideNodes.length - 1 : index - 1;
+
+        this.slideNodes[index].style.opacity = 0
+        this.slideNodes[nextIndex].style.opacity = 1;
+        this.currentSlide = nextIndex;
       },
 
       moveForward: function() {
-        console.log(this.slides, 'forwards');
+        this.slideNodes = this.slideNodes || this.$.slideHolder.querySelectorAll('slide-element'); //cache
+        var index = this.currentSlide;
+        var nextIndex = index === this.slideNodes.length - 1 ? 0 : index + 1;
+
+        this.slideNodes[index].style.opacity = 0
+        this.slideNodes[nextIndex].style.opacity = 1;
+        this.currentSlide = nextIndex;
+      },
+
+      findActive: function() {
+        var index = -1;
+
+        for (var i = 0; i < this.slideNodes.length; i++) {
+          if (this.slideNodes[i].active) {
+            index = i;
+            break;
+          }
+        };
+        return index;
       }
     });
 

@@ -3,8 +3,33 @@
 <link rel="import" href="../code-highlight-element/code-highlight-element.html">
 
 <polymer-element name="slide-element" attributes="content code language active">
-
   <template>
+    <style>
+      :host {
+        display: block;
+        height: 600px;
+        width: 95%;
+        float: left;
+        border: 1px solid #333;
+        position: absolute;
+        top: 130px;
+        opacity: 0;
+      }
+
+      :host.active {
+        opacity: 1;
+      }
+
+      mark-down, code-highlight-element {
+        width: 45%;
+        height: 80%;
+        float: left;
+        margin: 50px 20px;
+        display: block;
+      }
+    </style>
+
+
     <link rel="stylesheet" href="slide-element.css" />
     <mark-down>{{content}}</mark-down>
     <code-highlight-element language='{{code.language}}'>{{code.content}}</code-highlight-element>
@@ -15,6 +40,7 @@
       active: false,
 
       activeChanged: function(old, newValue) {
+        console.log('active changed')
         this.className = newValue ? 'active' : '';
       }
     });
